@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 public class WeatherUI extends JFrame {
     public JLabel jLabel = new JLabel();
-    static Image weatherImage = Toolkit.getDefaultToolkit().createImage("src/gifs/rain.gif");
+    static Image weatherImage = Toolkit.getDefaultToolkit().createImage("src/main/gifs/rain.gif");
     public JButton switchgif = new JButton("switch");
     public ImageIcon imageIcon = new ImageIcon(weatherImage);
     public WeatherUI()
@@ -15,7 +15,7 @@ public class WeatherUI extends JFrame {
         switchgif.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                weatherImage = Toolkit.getDefaultToolkit().createImage("src/gifs/snow.gif");
+                weatherImage = Toolkit.getDefaultToolkit().createImage("src/main/gifs/snow.gif");
                 ImageIcon img = new ImageIcon(weatherImage);
                 img.setImageObserver(jLabel);
                 jLabel.setIcon(img);
