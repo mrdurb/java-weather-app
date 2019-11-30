@@ -14,7 +14,12 @@ import org.json.JSONObject;
 
 public class JSONReader {
 
-    private static String readAll(Reader rd) throws IOException {
+    private String API_KEY = "c0fec04d26bd988c59b99eef68703ba3";
+    public String city, weather;
+    public int temp, tempMin, tempMax,
+                windSpeed, windDeg;
+
+    private String readAll(Reader rd) throws IOException {
         StringBuilder sb = new StringBuilder();
         int cp;
         while ((cp = rd.read()) != -1) {
@@ -23,7 +28,7 @@ public class JSONReader {
         return sb.toString();
     }
 
-    public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
+    public JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
         InputStream is = new URL(url).openStream();
         try {
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
@@ -35,10 +40,10 @@ public class JSONReader {
         }
     }
 
-    public static void main(String[] args) throws IOException, JSONException {
-        JSONObject json = readJsonFromUrl("http://api.openweathermap.org/data/2.5/weather?q=Kiev&appid=c0fec04d26bd988c59b99eef68703ba3");
-        System.out.println(json.toString());
-        System.out.println(json.get("id"));
+    public void getData(String city) throws IOException, JSONException {
+        JSONObject json = readJsonFromUrl("http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + API_KEY);
+//        System.out.println(json.toString());
+//        System.out.println(json.get("id"));
 
         int pageName = json.getJSONObject("main").getInt("temp");
 
