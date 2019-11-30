@@ -8,13 +8,12 @@ import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.Charset;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class JSONReader {
 
-    private String API_KEY = "c0fec04d26bd988c59b99eef68703ba3";
+    final String API_KEY = "c0fec04d26bd988c59b99eef68703ba3";
     public String city, weather;
     public int temp, tempMin, tempMax,
                 windSpeed, windDeg;
@@ -33,28 +32,23 @@ public class JSONReader {
         try {
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
             String jsonText = readAll(rd);
-            JSONObject json = new JSONObject(jsonText);
-            return json;
+            return new JSONObject(jsonText);
         } finally {
             is.close();
         }
     }
 
     public void getData(String city) throws IOException, JSONException {
-        JSONObject json = readJsonFromUrl("http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + API_KEY);
-//        System.out.println(json.toString());
-//        System.out.println(json.get("id"));
+        JSONObject json = readJsonFromUrl("http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + API_KEY + "&units=metric");
 
-        int pageName = json.getJSONObject("main").getInt("temp");
+        temp = json.getJSONObject("main").getInt("temp");
+        tempMin = json.getJSONObject("main").getInt("temp_min");
+        tempMax = json.getJSONObject("main").getInt("temp_max");
 
-        JSONArray arr = json.getJSONArray("weather");
-        String post_id;
-        for (int i = 0; i < arr.length(); i++)
-        {
-            post_id = arr.getJSONObject(i).getString("description");
-            System.out.println("post_id: " + post_id);
-        }
-        System.out.println("pageName: " + pageName);
+        weather = json.getJSONArray("weather").getJSONObject(0).getString("main");
+
+        windSpeed = json.getJSONObject("wind").getInt("speed");
+        windDeg = json.getJSONObject("wind").getInt("deg");
     }
 
 }
